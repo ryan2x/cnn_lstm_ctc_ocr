@@ -249,10 +249,10 @@ def _get_output( rnn_logits, sequence_length, lexicon ):
        log_prob: Score of predictions
     """
     with tf.name_scope("test"):
-	if lexicon:
-	    dict_tensor = _get_dictionary_tensor( lexicon, 
+        if lexicon:
+            dict_tensor = _get_dictionary_tensor( lexicon,
                                                   charset.out_charset )
-	    predictions,log_prob = tf.nn.ctc_beam_search_decoder_trie( 
+            predictions,log_prob = tf.nn.ctc_beam_search_decoder_trie(
                 rnn_logits,
                 sequence_length,
                 alphabet_size=charset.num_classes() ,
@@ -260,8 +260,8 @@ def _get_output( rnn_logits, sequence_length, lexicon ):
                 beam_width=128,
                 top_paths=1,
                 merge_repeated=True )
-	else:
-	    predictions,log_prob = tf.nn.ctc_beam_search_decoder( rnn_logits,
+        else:
+            predictions,log_prob = tf.nn.ctc_beam_search_decoder( rnn_logits,
                                                            sequence_length,
                                                            beam_width=128,
                                                            top_paths=1,

@@ -76,15 +76,15 @@ def gen_data( input_base_dir, image_list_filename, output_filebase,
         out_filename = output_filebase+'-'+(shard_format % i)+'.tfrecord'
         if os.path.isfile( out_filename ): # Don't recreate data if restarting
             continue
-        print str( i ), 'of', str( num_shards ),\
-            '[', str( start ), ':', str( end ), ']', out_filename
+        print(str( i ), 'of', str( num_shards ),\
+            '[', str( start ), ':', str( end ), ']', out_filename)
         gen_shard( sess, input_base_dir, 
                    image_filenames[start:end], out_filename )
 
     # Clean up writing last shard
     start = num_shards * images_per_shard
     out_filename = output_filebase+'-'+(shard_format % num_shards)+'.tfrecord'
-    print str(i),'of',str(num_shards),'[',str(start),':]',out_filename
+    print(str(i),'of',str(num_shards),'[',str(start),':]',out_filename)
     gen_shard(sess, input_base_dir, image_filenames[start:], out_filename)
 
     sess.close()
@@ -97,7 +97,7 @@ def gen_shard( sess, input_base_dir, image_filenames, output_filename ):
     for filename in image_filenames:
         path_filename = os.path.join( input_base_dir, filename )
         if os.stat( path_filename ).st_size == 0:
-            print('SKIPPING', filename)
+            print(('SKIPPING', filename))
             continue
         try:
             image_data, height, width = get_image( sess, path_filename )
@@ -108,11 +108,11 @@ def gen_shard( sess, input_base_dir, image_filenames, output_filename ):
                                         height, width )
                 writer.write( example.SerializeToString() )
             else:
-                print( 'SKIPPING', filename )
+                print(( 'SKIPPING', filename ))
         except:
             # Some files have bogus payloads, 
             # catch and note the error, moving on
-            print( 'ERROR', filename )
+            print(( 'ERROR', filename ))
     writer.close()
 
 

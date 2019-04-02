@@ -69,7 +69,7 @@ def dictionary_from_list(vocab, charset):
             [charset.index(ch) for word in vocab for ch in word], 
 	    dtype=np.int32)
     dims = np.array(
-            [len(vocab), max(map(lambda x: len(x), vocab))], dtype=np.int32)
+            [len(vocab), max([len(x) for x in vocab])], dtype=np.int32)
     tensor = tf.SparseTensorValue(indices=inds, values=vals, dense_shape=dims)
     tensor = tf.convert_to_tensor_or_sparse_tensor(tensor)
     return tensor
